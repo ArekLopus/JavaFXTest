@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+<?import fxml2.*?>
+<?language javascript?>
+
+<VBox spacing="5"  xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml2.ControllerReferenceNeedsGetSetController">
+	<padding><Insets bottom="5" top="5" left="5" right="5"/></padding>
+	<style>
+		-fx-padding: 10; -fx-border-style: solid inside; -fx-border-width: 2;
+		-fx-border-insets: 5; -fx-border-radius: 5; -fx-border-color: blue;
+	</style>
+	
+	<children>
+		<fx:script>
+			function handler1() {
+	    		java.lang.System.out.println('Button clicked - handler1() from the script ');
+	    	}
+	    	function handler2() {
+	    		java.lang.System.out.println('Button clicked - handler2() from the script ');
+	    	}
+		</fx:script>
+
+		
+		<Button text="Handler from controller" onAction="#handler1" />
+		
+		<Button text="2 Handlers from the script" onAction="handler1(), handler2()" />
+		
+		<Button text="Handler property from the controller needs a getter!" onAction="$controller.onActionHandler"/>	<!-- onAction="$controller.onActionHandler" -->
+		
+		<Label text="$controller" />
+		<Label text="$controller.info" />
+		<Label text="${controller.info}" />
+
+
+		
+	</children>
+	
+</VBox>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+	Custom Components
+-The setRoot() and setController() methods of FXMLLoader allow a caller to inject document root and controller values into the document namespace,
+ rather than delegating creation of these values to FXMLLoader itself. 
+-This allows a developer to easily create reusable controls that are internally implemented using markup,
+ but (from an API perspective) appear identically to controls implemented programmatically.
+
+-This markup defines the structure of a simple custom control containing a TextField and a Button instance.
+ The root container is defined as an instance of javafx.scene.layout.VBox:
+ 
+-The <fx:root> tag creates a reference to a previously defined root element. The value of this element is obtained by calling the getRoot() method of FXMLLoader.
+ Prior to calling load(), the caller must specify this value via a call to setRoot(). The caller may similarly provide a value for the document's controller by calling
+ setController(), which sets the value that will be used as the document's controller when the document is read.
+ These 2 methods are commonly used together when creating custom FXML-based components.
+ 
+-The CustomControl class extends VBox (the type declared by the <fx:root> element),
+ and sets itself as both the root and controller of the FXML document in its constructor. 
+
+-When the document is loaded, the contents of CustomControl will be populated with the contents of the FXML document
+ 
+-Now, callers can use instances of this control in code or in markup, just like any other control; e.g.:
+Java
+	HBox hbox = new HBox();
+	CustomControl customControl = new CustomControl();
+	customControl.setText("Hello World!");
+	hbox.getChildren().add(customControl);
+FXML
+	<HBox>
+	    <CustomControl text="Hello World!"/>
+	</HBox>
+ 
+-->
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import fxml.CustomControl?>
+
+
+<fx:root type="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml">
+    <TextField fx:id="textField"/>
+    <Button fx:id="button" text="Click Me" onAction="#doSomething"/>
+</fx:root>

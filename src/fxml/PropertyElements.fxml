@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+	Property Elements
+
+-Elements whose tag names begin with a lowercase letter represent object properties. A property element may represent:
+ • A property setter 	 • A read-only list property	 • A read-only map property 
+
+Property Setters
+-If an element represents a property setter, the contents of the element (a text node or a nested class instance element) are passed as the value to the setter for the property.
+-Fe, the following FXML creates an instance of the Label class and sets the value of the label's "text" property to "Hello, World!":
+	<Label>
+	    <text>Hello, World!</text>
+	</Label>
+This produces the same result as the earlier example which used an attribute to set the "text" property:
+	<Label text="Hello, World!"/>
+-Property elements are generally used when the property value is a complex type that can't be represented using a simple string-based attribute value,
+ or when the character length of the value is so long that specifying it as an attribute would have a negative impact on readability.
+
+Type Coercion
+-FXML uses "type coercion" to convert property values to the appropriate type as needed. Type coercion is required because the only data types supported by XML are elements,
+ text, and attributes (whose values are also text). However, Java supports a number of different data types including primitive value types as well as extensible reference types.
+-The FXML loader uses the coerce() of BeanAdapter to perform any required type conversions. This method is capable of performing basic primitive type conversions such as
+ String to boolean or int to double, and will also convert String to Class or String to Enum. Additional conversions can be impled by defining a static valueOf() on the target type.
+
+Read-Only List Properties
+-A read-only list property is a Bean property whose getter returns an instance of java.util.List and has no corresponding setter method.
+-The contents of a read-only list element are automatically added to the list as they are processed.
+-For example, the "children" property of javafx.scene.Group is a read-only list property representing the group's child nodes:
+	<Group xmlns:fx="http://javafx.com/fxml">
+	    <children>
+	        <Rectangle fx:id="rectangle" x="10" y="10" width="320" height="240" fill="#ff0000"/>
+	        ...
+	    </children>
+	</Group>
+-As each sub-element of the <children> element is read, it is added to the list returned by Group#getChildren(). 
+
+Read-Only Map Properties
+-A read-only map property is a bean property whose getter returns an instance of java.util.Map and has no corresponding setter method.
+-The attributes of a read-only map element are applied to the map when the closing tag is processed.
+-The "properties" property of javafx.scene.Node is an example of a read-only map property. 
+ The following markup sets the "foo" and "bar" properties of a Label instance to "123" and "456", respectively:
+	<?import javafx.scene.control.*?>
+	<Button>
+	    <properties foo="123" bar="456"/>
+	</Button>
+-Note that a read-only property whose type is neither a List nor a Map will be treated as if it were a read-only map.
+ The return value of the getter method will be wrapped in a BeanAdapter and can be used in the same way as any other read-only map.
+
+
+Default Properties
+-A class may define a "default property" using the javafx.beans.@DefaultProperty. If present, the sub-element representing the default property can be omitted from the markup.
+-Fe, since javafx.scene.layout.Pane (the superclass of javafx.scene.layout.VBox) defines a default property of "children",
+ a <children> element is not required; the loader will automatically add the sub-elements of the VBox to the container's "children" collection:
+	@DefaultProperty("children")    public class Pane extends Region {  …  }
+	<VBox xmlns:fx="http://javafx.com/fxml">
+	    <Button text="Click Me!"/>
+	    ...
+	</VBox>
+-Default props are not limited to collections. If an element's default property refers to a scalar value, any sub-element of that element will be set as the value of the prop.
+Fe, since javafx.scene.control.ScrollPane defines a default property of "content", a scroll pane containing a TextArea as its content can be specified as follows: 
+	<ScrollPane>
+	    <TextArea text="Once upon a time..."/>
+	</ScrollPane>
+-Taking advantage of default properties can significantly reduce the verbosity of FXML markup.
+
+
+Static Properties
+-An element may also represent a "static" property (sometimes called an "attached property"). Static properties are properties that only make sense in a particular context.
+ They are not intrinsic to the class to which they are applied, but are defined by another class (often, the parent container of a control).
+-Static properties are prefixed with the name of class that defines them. Fe, The following FXML invokes the static setter for GridPane's "rowIndex" and "columnIndex" props:
+	<GridPane>
+        <Label text="My Label">
+            <GridPane.rowIndex>0</GridPane.rowIndex>
+            <GridPane.columnIndex>0</GridPane.columnIndex>
+This translates roughly to the following in Java:
+	GridPane gridPane = new GridPane();
+	Label label = new Label();
+	label.setText("My Label");
+	GridPane.setRowIndex(label, 0);
+	GridPane.setColumnIndex(label, 0);
+	gridPane.getChildren().add(label);
+-The calls to GridPane#setRowIndex()/setColumnIndex() "attach" the index data to the Label instance. GridPane then uses these during layout to arrange its children appropriately.
+-Other containers, including AnchorPane, BorderPane, and StackPane, define similar properties.
+-As with instance properties, static property elements are generally used when the property value cannot be efficiently represented by an attribute value.
+ Otherwise, static property attributes will generally produce more concise and readable markup.
+
+
+Define Blocks
+-The <fx:define> element is used to create objects that exist outside of the object hierarchy but may need to be referred to elsewhere.
+-Fe, when working with radio buttons, it is common to define a ToggleGroup that will manage the buttons' selection state. This group is not part of the scene graph itself,
+ so should not be added to the buttons' parent. A define block can be used to create the button group without interfering with the overall structure of the document:
+-Elements in define blocks are usually assigned an ID that can be used to refer to the element's value later.
+
+-->
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.PropertyElementsController" >
+	
+	<fx:define>
+       	<ToggleGroup fx:id="myToggleGroup"/>
+    </fx:define>
+
+	<children>
+    	<Label fx:id="l1">		<!-- or <Label text="Hello World!"/> attribute sets the "text" property -->
+	    	<text>Label text set using property setter</text>
+		</Label>
+		<Button fx:id="b1" text="Read only properties map" onAction="#onActionHandler">
+	    	<properties foo="123" bar="456"/>
+		</Button>
+		<VBox>
+			<Button fx:id="b2" text="Pane defines a default property of 'children' so you dont need to use it for parent VBox"/>
+		</VBox>
+		
+		<GridPane>
+	        <Label text="My Label">
+	           	<GridPane.rowIndex>1</GridPane.rowIndex>
+	           	<GridPane.columnIndex>1</GridPane.columnIndex>
+	       	</Label>
+		</GridPane>
+		
+		<RadioButton text="A" toggleGroup="$myToggleGroup"/>
+        <RadioButton text="B" toggleGroup="$myToggleGroup"/>
+        <RadioButton text="C" toggleGroup="$myToggleGroup"/>
+	</children>
+	
+</VBox>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+<?import fxml2.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+
+<VBox spacing="5" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml2.DateBuilderTestController">
+	<padding><Insets bottom="5" top="5" left="5" right="5"/></padding>
+	
+	<children>
+		
+		<Label text="$u1">
+			<User fx:id="u1"  name="Date set with Atrribute 'time'" surname="Doe" >
+				<dob>
+					<Date time="1355266800000" />
+				</dob>
+			</User>
+		</Label>
+		
+		<Label text="$u2">
+			<User fx:id="u2" name="Date set with User.valueOf()" surname="Doe">
+				<dob>
+					<User fx:value="12-12-2012"/> 				<!-- User.valueOf() -->
+				</dob>
+			</User>
+		</Label>
+		
+		<Label text="$u3">
+			<User fx:id="u3"  name="Date set with DateBuiler" surname="Doe" >
+				<dob>
+					<Date dateToParse="12-12-2012"/>
+				</dob>
+			</User>
+		</Label>
+		
+	</children>
+	
+</VBox>

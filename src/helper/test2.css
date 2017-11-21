@@ -1,0 +1,12 @@
+.vbox {
+	-fx-background-color: yellow;
+}
+.vbox2 {
+	-fx-padding: 50;
+}
+
+.root {
+	-fx-cursor: crosshair;
+	-fx-background-color: red;
+}
+

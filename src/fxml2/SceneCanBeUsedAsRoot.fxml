@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.Scene?>
+<?import java.lang.String?>
+
+<Scene stylesheets="/helper/test.css, /helper/test5.css" width="400" height="300" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	 fx:controller="fxml2.SceneCanBeUsedAsRootController" >
+	
+	<VBox spacing="5">
+		<children>
+			<Button text="Styled Button from test.css"/> 	
+			<Label styleClass="myClass1, myClass2" text="This label is CSSed"/>
+			
+			<Label fx:id="l1" text="$s1">
+				<String fx:id="s1" fx:value="Label from String" />
+			</Label>
+		</children>
+	</VBox>
+	
+</Scene>

@@ -1,0 +1,17 @@
+.button {
+	-fx-background-color: blue;
+}
+
+#my_button {
+	-fx-background-color: yellow;
+}
+
+
+
+VBox {
+	-fx-background-color: yellow;
+}
+
+TextField {
+	-fx-background-color: orange;
+}

@@ -1,0 +1,41 @@
+
+#my_button.button {
+    -fx-text-fill: red;
+}
+
+.button#my_button {
+    -fx-text-fill: blue;
+}
+
+
+
+* {
+	-fx-text-fill: green;
+}
+
+
+
+.text-field, .label {
+	-fx-text-fill: red;
+}
+
+
+
+.vbox .button {
+	-fx-text-fill: brown;
+}
+
+.check-box .text {
+	-fx-fill: blue;
+}
+.check-box .box {
+    -fx-border-color: black;
+    -fx-border-width: 3px;
+    -fx-border-style: dotted;
+}
+
+
+
+.vbox2 > .button {
+    -fx-text-fill: red;
+}

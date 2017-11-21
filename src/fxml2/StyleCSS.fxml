@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+
+<VBox spacing="5"  xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" >
+
+	<style>
+		-fx-padding: 10; -fx-border-style: solid inside; -fx-border-width: 2;
+		-fx-border-insets: 5; -fx-border-radius: 5; -fx-border-color: blue;
+	</style>
+	
+	<children>
+		
+		<Button text="Styled Button and VBox">
+			<style>	-fx-text-fill: red; -fx-font-weight: bold;	</style>
+		</Button> 	
+		
+	</children>
+	
+</VBox>

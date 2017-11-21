@@ -1,0 +1,12 @@
+
+.myClass1 {
+	-fx-background-color: blanchedalmond;
+}
+
+.myClass2 {
+	-fx-border-color: black;
+	-fx-text-fill: rgb(160,16,85);
+	-fx-padding: 25;
+	-fx-font-size: 20;
+	-fx-font-weight: bold;
+}

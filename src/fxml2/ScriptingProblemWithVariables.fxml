@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<?language javascript?>
+
+<VBox spacing="5"  xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" >
+	<padding><Insets bottom="5" top="5" left="5" right="5"/></padding>
+	<style>
+		-fx-padding: 10; -fx-border-style: solid inside; -fx-border-width: 2;
+		-fx-border-insets: 5; -fx-border-radius: 5; -fx-border-color: blue;
+	</style>
+	
+	<fx:script>
+	    var myText = "This is the text of my label.";
+	    var myText2 = function () {
+	    	java.lang.System.out.println("myText2");
+	        return "This is the text of my label.";
+	    }
+	    function abc() {
+	    	java.lang.System.out.println("abc()");
+	        return "This is the text of my label.";
+	    }
+	</fx:script>
+	
+	<children>
+	
+		<Label text="Just Label"/>								<!--  It does not work when used with an attribute  -->
+		<Label text="$myText"/>
+		<Label text="$myText2()"/>
+		<Label text="$abc()"/>
+		
+		<Button text="Btn - abc()" onAction="abc();" />			<!--  It works when used as a handler  -->
+		<Button text="Btn - myText2()" onAction="myText2()" />
+		
+	</children>
+	
+</VBox>

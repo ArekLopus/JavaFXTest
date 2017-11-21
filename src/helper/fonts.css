@@ -1,0 +1,20 @@
+
+.my-font {
+    -fx-font: 36 Arial;
+    -fx-fill: linear-gradient(from 0% 0% to 100% 0%, yellow 0%, red 100%);
+    -fx-font-smoothing-type: lcd;
+    -fx-underline: true;
+}
+
+#my-id {
+    -fx-font: 36 Arial;
+    -fx-font-smoothing-type: lcd;
+    -fx-font-style: italic;
+}
+
+#fancytext {
+    -fx-font: 60px Tahoma;
+    -fx-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, aqua 0%, red 50%);
+    -fx-stroke: black;
+    -fx-stroke-width: 1;
+}

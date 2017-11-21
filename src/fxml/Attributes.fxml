@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+	Attributes
+-An attribute in FXML may represent one of the following:
+ • A property of a class instance     • A "static" property    • An event handler 
+
+Instance Properties
+-Like property elements, attributes can also be used to configure the properties of a class instance.
+-Fe, the following markup creates a Button whose text reads "Click Me!":
+	<Button text="Click Me!"/>
+-As with property elements, property attributes support type coercion. When the following markup is processed,
+ the "x", "y", "width", and "height" values will be converted to doubles, and the "fill" value will be converted to a Color:
+	<Rectangle fx:id="rectangle" x="10" y="10" width="320" height="240" fill="#ff0000"/>
+-Unlike property elements, which are applied as they are processed, property attributes are not applied until the closing tag of their respective element is reached.
+ This is done primarily to facilitate the case where an attribute value depends on some information that won't be available until after the element's content has been processed.
+-Another key difference between property attributes and property elements in FXML is that attributes support a number of "resolution operators" that extend their functionality.
+	 • Location resolution     • Resource resolution     • Variable resolution 
+
+Location Resolution
+-As strings, XML attributes cannot natively represent typed location information such as a URL. However, it is often necessary to specify such locations in markup;
+ fe, the source of an image resource. The location resolution operator (an "@" prefix to the attribute value) is used to specify that
+ an attribute value should be treated as a location relative to the current file rather than a simple string.
+-Fe, the following markup creates an ImageView and populates it with image data from my_image.png, which is assumed to be located at a path relative to the current FXML file:
+	<ImageView>
+	    <image>
+	        <Image url="@my_image.png"/>
+-Note that whitespace values in the URL must be encoded; fe, to refer to a file named "My Image.png", the FXML document should contain the following:
+	<Image url="@My%20Image.png"/>      	rather than:		<Image url="@My Image.png"/>
+
+Resource Resolution
+-In FXML, resource substitution can be performed at load time for localization purposes. When provided with an instance of java.util.ResourceBundle,
+ the FXML loader will replace instances of resource names with their locale-specific values.
+-Resource names are identified by a "%" prefix, as shown below:
+	<Label text="%myText"/>
+If the loader is given a resource bundle defined as follows:
+	myText = This is the text!
+the output of the FXML loader would be a Label instance containing the text "This is the text!".
+
+Variable Resolution
+-An FXML document defines a variable namespace in which named elements and script variables may be uniquely identified.
+-The variable resolution operator allows a caller to replace an attribute value with an instance of a named object before the corresponding setter method is invoked. Variable references are identified by a "$" prefix, as shown below:
+	<fx:define>
+	    <ToggleGroup fx:id="myToggleGroup"/>
+	...
+	<RadioButton text="A" toggleGroup="$myToggleGroup"/>
+	<RadioButton text="B" toggleGroup="$myToggleGroup"/>
+-Assigning an fx:id value to an element creates a variable in the document's namespace that can later be referred to by variable dereference attributes,
+ such as the "toggleGroup" attribute shown above, or in script code, discussed in a later section.
+-Additionally, if the object's type defines an "id" property, this value will also be passed to the objects setId() method.
+
+Escape Sequences
+-If the value of an attribute begins with one of the resource resolution prefixes, the character can be escaped by prepending it with a leading backslash ("\") character.
+ Fe, the following markup creates a Label instance whose text reads "$10.00":
+	<Label text="\$10.00"/>
+
+
+Expression Binding
+-Attribute variables are resolved once at load time. Later updates to the variables value are not automatically reflected in any properties to which the value was assigned.
+ In many cases, this is sufficient; however, it is often convenient to "bind" a property value to a variable or expression such that changes to the variable
+ are automatically propagated to the target property.
+-An expression binding also begins with the variable resolution operator, but is followed by a set of curly braces which wrap the expression value.
+ Fe, the following markup binds the value of a text input's "text" property to the "text" property of a Label instance:
+	<TextField fx:id="textField"/>
+	<Label text="${textField.text}"/>
+As the user types in the text input, the label's text content will be automatically updated.
+-More complex expression are also supported. A list of supported constants and operators follows:
+	"string"  'string'		A string constant
+	true  false				A boolean constant
+	null					A constant representing the null value
+	50.0  3e5  42			A numerical constant
+	- (unary operator)		Unary minus operator, applied on a number
+	! (unary operator)		Unary negation of a boolean
+	+ - * / %				Numerical binary operators
+	&& ||					Boolean binary operators
+	> >= < <= == !=			Binary operators of comparison.Both arguments must be of type Comparable
+
+
+Static Properties
+-Attributes representing static properties are handled similarly to static property elements and use a similar syntax.
+ Fe, the example from PropertyElements that demonstrates static property elements could be rewritten as follows:
+	<GridPane>
+        <Label text="My Label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+-In addition to being more concise, static property attributes, like instance property attributes, support location, resource, and variable resolution operators,
+ the only limitation being that it is not possible to create an expression binding to a static property.
+
+-->
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+
+
+<VBox spacing="5" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.AttributesController" >
+	<children>
+		<Pane>
+			<padding><Insets bottom="10" /></padding>
+			<Rectangle fx:id="rectangle" x="10" y="10" width="100" height="50" fill="#ff0000"/>
+		</Pane>
+		
+		<ImageView>
+	    	<image>
+	        	<Image url="@Smile48.png"/>		<!-- The location resolution operator -->
+	    	</image>
+		</ImageView>
+		
+		<Button fx:id="b1" text="%abc"/>		<!-- Resource resolution operator (fxmlLoader.setResources(ResourceBundle.getBundle("fxml.Attributes")) -->
+		
+		<HBox spacing="5">
+			<fx:define>
+	    		<ToggleGroup fx:id="tg"/>			<!-- Variable resolution operator -->
+			</fx:define>
+			<RadioButton text="A" toggleGroup="$tg"/>
+			<RadioButton text="B" toggleGroup="$tg"/>
+			<RadioButton text="C" toggleGroup="$tg"/>
+		</HBox>
+		
+		<Label text="\$10.00 - use '\' if the value of an attribute begins with one of the resource resolution prefixes"/>
+		
+		
+		<Button fx:id="forController" id="forNode" text="'fx:id' -> is for the Controllers injected object reference name, 'id' is for objects id "/>		
+		
+		
+		<TextField fx:id="textField" text="This TF is bounded with the Label below " />
+		<Label text="${'This label is bounded with the TF above -> ' + textField.text}"/>
+		
+		<HBox spacing="5">
+			<CheckBox fx:id="cb" text="Visible / NotVisible" />
+			<Button disable="${cb.selected}" text='This button is bounded with Checkbox' />
+		</HBox>
+		
+		<GridPane>
+        	<Label text="Label is set using Attributes representing static properties of GridPane   " GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        	<Label text="Label2 row0, column1" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+		</GridPane>
+		
+		
+	</children>
+	
+</VBox>

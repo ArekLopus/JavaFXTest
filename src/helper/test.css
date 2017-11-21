@@ -1,0 +1,39 @@
+.my-rect {
+	-fx-fill: red; 
+}
+
+.my-rect2 {
+	-fx-fill: yellow;
+}
+
+#my-rect3 {
+	-fx-fill: yellow;
+}
+
+
+
+
+.button {
+	-fx-background-color: yellow;
+	-fx-border-color: green;
+	-fx-text-fill: red;
+}
+
+.button:armed {
+	-fx-border-color: red;
+}
+
+.button:hover {
+	-fx-background-color: beige ;
+}
+
+
+
+
+.vbox {
+	-fx-background-color: yellow;
+}
+.vbox2 {
+	-fx-padding: 50;
+}
+

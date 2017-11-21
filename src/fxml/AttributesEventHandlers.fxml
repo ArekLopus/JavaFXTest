@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+	Event Handlers
+-Event handler attributes are a convenient means of attaching behaviors to document elements.
+-Any class that defines a setOnEvent() can be assigned an event handler in markup.
+-FXML supports 3 types of event handler attributes: script event handlers, controller method event handlers and expressions.
+
+Script Event Handlers
+-A script event handler is an event handler that executes script code when the event is fired, similar to event handlers in HTML.
+-Fe, this script-based handler for the button's "onAction" event uses JavaScript to write the text "You clicked me!" to the console:
+	<?language javascript?>
+	<VBox>
+        <Button text="Click Me!" onAction="java.lang.System.out.println('You clicked me!');"/>
+-The language processing instruction at the beginning of the code snippet tells the FXML loader which scripting language should be used to execute the event handler.
+-A page language must be specified whenever inline script is used in an FXML document, and can only be specified once per document.
+ However, this does not apply to external scripts, which may be implemented using any number of supported scripting languages.
+
+Controller Method Event Handlers
+-A controller method event handler is a method defined by a document's "controller". 
+-A controller is an object that is associated with the deserialized contents of an FXML document and is responsible for coordinating the behaviors of the objects
+ (often user interface elements) defined by the document.
+-A controller method event handler is specified by a leading hash "#" symbol followed by the name of the handler method. Fe:
+	<VBox fx:controller="com.foo.MyController" xmlns:fx="http://javafx.com/fxml">
+	    <Button text="Click Me!" onAction="#handleButtonAction"/>
+-Note the use of the fx:controller attribute on the root element. This attribute is used to associate a controller class with the document.
+-In general, a handler method should conform to the signature of a standard event handler; that is, it should take a single argument
+ of a type that extends javafx.event.Event and should return void.
+-The event argument often carries important and useful info about the nature of the event; however, it is optional and may be omitted if desired. 
+
+
+
+
+-->
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?language javascript?>			<!-- This PI tells the FXML loader which scripting language should be used to execute the event handler -->
+
+
+<VBox onSpacingChange="#handlePropertyChange" spacing="5" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.AttributesEventHandlersController" >
+	<children onChange="#handleChildrenChange">			<!--  onChange -> Special handler for collections  -->
+		
+		<Button text="This script-based handler for the button's 'onAction' event uses JavaScript to write the text" onAction="java.lang.System.out.println('Button clicked! - onAction js used');"/>
+		<Button text="This script-based handler uses js sayHello()" onAction="sayHello()"/>
+		
+		<Button text="This Button uses Controller Method Event Handler with Event argument" onAction="#buttonEventHandlerWithEventArgument"/>
+		<Button text="This Button uses Controller Method Event Handler" onAction="#buttonEventHandler"/>
+		
+		<Button text="Event Handler property from Controller - Handler property needs a getter!" onAction="$controller.ah"/>
+		
+		<Button text="Handle Children Change" onAction="#buttonEventHandlerToHandleChildrenChange"/>
+		<Button text="Handle Property Change" onAction="#buttonEventHandlerToHandlePropertyChange"/>
+		
+	</children>
+	
+	<fx:script>
+		function sayHello() {
+    		java.lang.System.out.println("Button clicked! - js sayHello()");
+		}
+	</fx:script>
+</VBox>

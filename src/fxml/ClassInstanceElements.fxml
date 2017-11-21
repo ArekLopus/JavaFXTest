@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+Class Instance Elements
+
+Instance Declarations
+-If an element's tag is considered an instance declaration if the tag begins with uppercase letter (and the class is imported) or,
+ as in Java, it denotes a fully-qualified (including the package name) name of a class. When the FXML loader encounters such an element, it creates an instance of that class.
+-Importing a class is done using the "import" processing instruction (PI). Fe, this PI imports the javafx.scene.control.Label class into the current FXML document’s namespace:
+	<?import javafx.scene.control.Label?>
+-This PI imports all classes from the javafx.scene.control package into the current namespace:
+	<?import javafx.scene.control.*?>
+
+-Any class that adheres to JavaBean constructor and property naming conventions can be readily instantiated and configured using FXML.
+
+-This example creates an instance of javafx.scene.control.Label and sets its "text" property to "Hello, World!":
+	<?import javafx.scene.control.Label?>
+	<Label text="Hello, World!"/>
+
+	
+-Classes that don't conform to Bean conventions can also be constructed in FXML, using an object called a "builder". 
+
+fx:value
+-The fx:value attribute can be used to initialize an instance of a type that does not have a default constructor but provides a static valueOf(String).
+ Fe, java.lang.String as well as each of the primitive wrapper types define a valueOf() method and can be constructed in FXML as follows:
+	<String fx:value="Hello, World!"/>
+-Custom classes that define a static valueOf(String) method can also be constructed this way.
+
+fx:factory
+-The fx:factory attribute is another means of creating objects whose classes do not have a default constructor.
+ The value of the attribute is the name of a static, no-arg factory method for producing class instances. 
+-Fe, the following markup creates an instance of an observable array list, populated with three string values:
+	<FXCollections fx:factory="observableArrayList">
+    	<String fx:value="A"/>
+    	<String fx:value="B"/>
+    	<String fx:value="C"/>
+	</FXCollections>
+
+Builders
+-A third means of creating instances of classes that do not conform to Bean conventions (such as those representing immutable values) is a "builder".
+ The builder design pattern delegates object construction to a mutable helper class (called a "builder") that is responsible for manufacturing instances of the immutable type.
+-A default builder factory, javafx.fxml.JavaFXBuilderFactory is capable of creating and configuring most immutable JavaFX types. 
+-Fle, the following markup uses the default builder to create an instance of the immutable javafx.scene.paint.Color class: 
+	<Color red="1.0" green="0.0" blue="0.0"/>
+-Note that, unlike Bean types, which are constructed when the element's start tag is processed, objects constructed by a builder are not instantiated until the element's closing tag is reached. This is because all of the required arguments may not be available until the element has been fully processed. For example, the Color object in the preceding example could also be written as:
+<Color>
+    <red>1.0</red>
+    <green>0.0</green>
+    <blue>0.0</blue>
+</Color>
+The Color instance cannot be fully constructed until all three of the color components are known.
+-When processing markup for an object that will be constructed by a builder, the Builder instances are treated like value objects - if a Builder implements the Map interface, the put() method is used to set the builder's attribute values. Otherwise, the builder is wrapped in a BeanAdapter and its properties are assumed to be exposed via standard Bean setters.
+
+
+fx:include
+-The <fx:include> tag creates an object from FXML markup defined in another file. It is used as follows:
+	<fx:include source="filename"/>
+where filename is the name of the FXML file to include. 
+-Values that begin with a leading slash character are treated as relative to the classpath. Values with no leading slash are considered relative to the path of the current doc.
+-<fx:include> also supports attributes for specifying the name of the resource bundle that should be used to localize the included content, as well as the character set.
+	<fx:include source="filename" resources="resource_file" charset="utf-8"/>
+
+-The "fx" namespace prefix is a reserved prefix that defines a number of elements and attributes that are used for internal processing of an FXML source file.
+ It is generally declared on the root element of a FXML document. 
+
+
+<fx:constant>
+-The <fx:constant> element creates a reference to a class constant. 
+ Fe, the following markup sets the value of the "minWidth" property of aButton instance to the value of the NEGATIVE_INFINITY constant defined by the java.lang.Double class:
+	<Button>
+	    <minHeight><Double fx:constant="NEGATIVE_INFINITY"/></minHeight>
+	</Button>
+
+
+<fx:reference> (first must be declared using <fx:define>)
+-The <fx:reference> element creates a new reference to an existing element. Wherever this tag appears, it will effectively be replaced by the value of the named element.
+ It is used in conjunction with either the fx:id attribute or with a script variables.
+-The "source" attribute of the <fx:reference> element specifies the name of the object to which the new element will refer.
+-Fe, this markup assigns a previously-defined Image instance named "myImage" to the "image" property of an ImageView control:
+	<ImageView>	  //or using the variable resolution operator  <ImageView image='$myImage'>
+	    <image>
+	        <fx:reference source="myImage"/>
+	    </image>
+	</ImageView>
+-Note that, since it is also possible to dereference a variable using the attribute variable resolution operator '$'
+ fx:reference is generally only used when a reference value must be specified as an element, such as when adding the reference to a collection:
+	<ArrayList>
+    	<fx:reference source="element1"/>
+	    <fx:reference source="element2"/>
+    	<fx:reference source="element3"/>
+	</ArrayList>
+For most other cases, using an attribute is simpler and more concise.
+-The <fx:reference> element can be used to reference any element with a fx:id attribute that is handled before the <fx:reference> el. 
+	<RadioButton text="Radio 2">
+    	<toggleGroup>
+        	<fx:reference source="group"/>        //reference ToggleGroup created for last RadioButton
+    	</toggleGroup>
+	</RadioButton>
+	<RadioButton text="Radio 3" toggleGroup="$group" />
+
+
+-@NamedArg (JavaFX 8) allows an FXMLLoader to instantiate a class that does not have a zero-argument constructor. 
+
+
+-->
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Rectangle?>
+
+<!-- To use Classes we need to import them first! -->
+<?import java.util.HashMap?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<?import fxml2.*?>
+
+
+<VBox spacing="5" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.ClassInstanceElementsController" >
+	<children>
+    	<Button id="b1" text="Click Me!" onAction="#onActionHandler"/>
+    	
+    	<ComboBox fx:id="cb" value="Item 2" >
+    		<items>
+    	    	<FXCollections fx:factory="observableArrayList">
+	            	<String fx:value="Item 1" />
+            		<String fx:value="Item 2" />
+            		<String fx:value="Item 3" />
+        		</FXCollections>
+    		</items>
+		</ComboBox>
+	
+		<Rectangle width="100" height="50" >
+			<fill><Color red="1.0" green="0" blue="0"/></fill>
+		</Rectangle>
+    	
+		<fx:include fx:id="incl" source="ToInclude.fxml" />
+		
+		<Button id="b2" text="Button with constant" >
+			<textFill><Color fx:constant="BLUE"/></textFill>
+		</Button>
+		
+		
+		<fx:define>
+            <String fx:value="Text From fx:define" fx:id="text" />
+        </fx:define>
+		
+		<Button id="b3" >	<!-- or using attribure -> text="$text"  -->
+			<text>
+				<fx:reference source="text"/>
+			</text>
+		</Button>
+		
+		<RadioButton text="Radio 1">
+            <toggleGroup>
+                <ToggleGroup fx:id="group" />
+            </toggleGroup>
+        </RadioButton>
+		<RadioButton text="Radio 2">
+    		<toggleGroup>
+        		<fx:reference source="group"/>        <!-- references ToggleGroup created for last RadioButton -->
+    		</toggleGroup>
+		</RadioButton>
+		<RadioButton text="Radio 3" toggleGroup="$group" />		<!-- references using the attribute variable resolution operator -->
+		
+		<Label text="$u1">
+			<User2 fx:id="u1" name="NamedArg@ used in User2" surname="(No default constructor)"/>
+		</Label>
+	</children>
+</VBox>

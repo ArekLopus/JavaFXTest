@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="javaFxBeans.JavaFxBeanController" minWidth="200">
+   <Label id="counterLabel" text="${controller.counter}" />
+   <Button translateX="50" text="Subtract 1" onAction="#handleStartButtonAction" />
+</GridPane>

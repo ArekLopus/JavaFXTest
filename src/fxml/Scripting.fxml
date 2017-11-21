@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+	Scripting
+	
+-The <fx:script> tag allows a caller to import scripting code into or embed script within a FXML file. 
+-Any JVM scripting language can be used, including JavaScript, Groovy, and Clojure, among others. 
+-Script code is often used to define event handlers directly in markup or in an associated source file,
+ since event handlers can often be written more concisely in more loosely-typed scripting languages than they can in a statically-typed language such as Java.
+-Script code may also be defined in external files. 
+ It is often preferable to separate code from markup in this way, since many text editors support syntax highlighting for the various scripting languages supported by the JVM.
+ It can also help improve readability of the source code and markup
+-Note that script blocks are not limited to defining event handler functions. Script code is executed as it is processed,
+ so it can also be used to dynamically configure the structure of the resulting output.
+
+Warning:As of JavaFX 8.0, importClass() javascript function is no longer supported.
+ You have to use fully qualified names as in the example above or load a nashorn compatibility script.
+	load("nashorn:mozilla_compat.js");
+	importClass(java.lang.System);
+	
+	function handleButtonAction(event) {
+	   System.out.println('You clicked me!');
+	}
+
+
+-->
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?language javascript?>
+
+	
+
+<VBox spacing="5" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.ScriptingController" >
+	
+	<fx:script>
+		load("nashorn:mozilla_compat.js");
+		importClass(java.lang.System);
+		function handleButtonAction(e) {
+	    	java.lang.System.out.println('Button clicked - handleButtonAction() from the script '+e);
+	    }
+	    function handleButtonAction2(e) {
+	    	System.out.println('Button clicked - handleButtonAction2() from the script '+e);
+	    }
+	    var myText = 'This is the text of my label.';
+	</fx:script>
+	<fx:script source="Scripting.js" charset="utf-8"/>
+	<children>
+		
+		<Button text="JS handler from fx:script" onAction="handleButtonAction();"/>
+		<Button text="JS handler from fx:script with importClass()" onAction="handleButtonAction2();"/>
+		<Button text="JS handler from Scripting.js" onAction="handleButtonActionFromJsFile();"/>		
+		
+		<Label text="$myText"  />		<!--  DOES NOT WORK!  -->
+		
+		<Label fx:id="myLabel" />		<!--  Workaround  -->
+		<fx:script>
+    		myLabel.text = "This is the text of my label.";
+		</fx:script>
+		
+		
+	</children>
+	
+</VBox>

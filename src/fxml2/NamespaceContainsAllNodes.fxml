@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+<?import fxml2.*?>
+<?import java.lang.*?>
+
+<VBox spacing="5"  xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml2.NamespaceContainsAllNodesController">
+	<padding><Insets bottom="5" top="5" left="5" right="5"/></padding>
+	<style>
+		-fx-padding: 10; -fx-border-style: solid inside; -fx-border-width: 2;
+		-fx-border-insets: 5; -fx-border-radius: 5; -fx-border-color: blue;
+	</style>
+	
+	<children>
+		
+		<Label text="$u2">
+			<String fx:id="str1" fx:value="Abc" />				<!-- String.valueOf() -->
+			<User fx:id="u2" name="John" surname="Rambo">
+				<testMap abc="def" />							<!-- List and Map must be READ-ONLY -->
+				<testList>
+					<String fx:value="abc" />
+				</testList>
+				<dob>
+					<User fx:value="12-12-2012"/> 				<!-- User.valueOf() -->
+				</dob>
+			</User>
+			
+			<User name="John" surname="Rambo" />
+		</Label>
+		
+		
+	</children>
+	
+</VBox>

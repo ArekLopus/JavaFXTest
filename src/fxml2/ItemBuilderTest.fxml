@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import fxml2.*?>
+<?import java.util.*?>
+
+<VBox spacing="5"  xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml2.ItemBuilderTestController">
+	<children>
+		
+		<Label text="$u1">
+			<User fx:id="u1"  name="John" surname="Doe" >
+				<dob>
+					<Date time="0" />
+				</dob>
+				<testList>
+					<Item  id="1" name="Item 111"/>
+					<Item  id="2" name="Item 222"/>
+					<Item  id="3" name="Item 333"/>
+				</testList>
+			</User>
+
+		</Label>
+		
+		
+	</children>
+	
+</VBox>
